@@ -1,5 +1,8 @@
 # Azure DevOps pipeline to build, run tests, and more.
 
+variables:
+  YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
+
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -12,19 +15,18 @@ jobs:
         versionSpec: '10.14.1'
       displayName: 'Install Node.js'
     
-    # TODO: restore_node_cache
-    - script: |
-        echo 'restore_node_cache'
-      displayName: 'Restore node cache'
+    - task: Cache@2
+      inputs:
+        key: 'yarn | "$(Agent.OS)" | yarn.lock'
+        restoreKeys: |
+          yarn | "$(Agent.OS)"
+          yarn
+        path: $(YARN_CACHE_FOLDER)
+      displayName: Cache Yarn packages
 
     - script: |
         yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
       displayName: 'Install node modules'
-
-    # TODO: save_node_cache
-    - script: |
-        echo 'save_node_cache'
-      displayName: 'Save node cache'
 
     - script: |
         yarn build
@@ -34,6 +36,19 @@ jobs:
   - job: tests
     dependsOn: compile
     steps:
+    - task: Cache@2
+      inputs:
+        key: 'yarn | "$(Agent.OS)" | yarn.lock'
+        restoreKeys: |
+          yarn | "$(Agent.OS)"
+          yarn
+        path: $(YARN_CACHE_FOLDER)
+      displayName: Cache Yarn packages
+
+    - script: |
+        yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
+      displayName: 'Install node modules'
+
     - script: |
         yarn test:coverage
       displayName: 'Unit tests'
@@ -47,6 +62,19 @@ jobs:
   - job: lint
     dependsOn: compile
     steps:
+    - task: Cache@2
+      inputs:
+        key: 'yarn | "$(Agent.OS)" | yarn.lock'
+        restoreKeys: |
+          yarn | "$(Agent.OS)"
+          yarn
+        path: $(YARN_CACHE_FOLDER)
+      displayName: Cache Yarn packages
+
+    - script: |
+        yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
+      displayName: 'Install node modules'
+
     - script: |
         yarn lint
       displayName: 'Lint'
@@ -55,6 +83,19 @@ jobs:
   - job: lint_api
     dependsOn: compile
     steps:
+    - task: Cache@2
+      inputs:
+        key: 'yarn | "$(Agent.OS)" | yarn.lock'
+        restoreKeys: |
+          yarn | "$(Agent.OS)"
+          yarn
+        path: $(YARN_CACHE_FOLDER)
+      displayName: Cache Yarn packages
+
+    - script: |
+        yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
+      displayName: 'Install node modules'
+
     - script: |
         npm install oval
       displayName: 'Install OpenAPI validator'
