@@ -12,9 +12,21 @@ pool:
 steps:
 - script: |
     yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
-  displayName: 'compile'
+    yarn build
+  displayName: 'Compile (install modules and build)'
 
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    yarn test:coverage
+    "bash <(curl -s https://codecov.io/bash)" 
+  displayName: 'tests'
+
+- script: |
+    yarn lint
+  displayName: 'lint'
+
+- script: |
+    npm install oval
+    npx oval validate -p openapi/index.yaml
+  displayName: 'lint-api'
+
+  
