@@ -52,7 +52,7 @@ jobs:
       displayName: 'Lint'
 
   # 2.C) Validate OpenAPI spec 
-  - job: lint-api
+  - job: lint_api
     dependsOn: compile
     steps:
     - script: |
