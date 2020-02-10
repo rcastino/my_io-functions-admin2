@@ -17,7 +17,7 @@ steps:
 
 - script: |
     yarn test:coverage
-    "bash <(curl -s https://codecov.io/bash)" 
+    "#bash <(curl -s https://codecov.io/bash)" 
   displayName: 'tests'
 
 - script: |
