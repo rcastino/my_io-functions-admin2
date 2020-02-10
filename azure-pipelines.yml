@@ -10,8 +10,9 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+- script: |
+    yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
+  displayName: 'compile'
 
 - script: |
     echo Add other tasks to build, test, and deploy your project.
