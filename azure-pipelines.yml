@@ -1,31 +1,65 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml TEST
-
-trigger:
-- master
+# Azure DevOps pipeline to build, run tests, and more.
 
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- script: |
-    yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
-    yarn build
-  displayName: 'Compile (install modules and build)'
+jobs:
+  # 1) Install Node.js modules and build
+  - job: compile
+    steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '10.14.1'
+      displayName: 'Install Node.js'
+    
+    # TODO: restore_node_cache
+    - script: |
+        echo 'restore_node_cache'
+      displayName: 'Restore node cache'
 
-- script: |
-    yarn test:coverage
-  displayName: 'tests'
+    - script: |
+        yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
+      displayName: 'Install node modules'
 
-- script: |
-    yarn lint
-  displayName: 'lint'
+    # TODO: save_node_cache
+    - script: |
+        echo 'save_node_cache'
+      displayName: 'Save node cache'
 
-- script: |
-    npm install oval
-    npx oval validate -p openapi/index.yaml
-  displayName: 'lint-api'
+    - script: |
+        yarn build
+      displayName: 'Build'
 
-  
+  # 2.A) Run unit tests
+  - job: tests
+    dependsOn: compile
+    steps:
+    - script: |
+        yarn test:coverage
+      displayName: 'Unit tests'
+
+    # TODO: "bash <(curl -s https://codecov.io/bash)"
+    - bash: |
+        echo 'codecov'
+      displayName: 'Code coverage'
+ 
+  # 2.B) Analyze source code
+  - job: lint
+    dependsOn: compile
+    steps:
+    - script: |
+        yarn lint
+      displayName: 'Lint'
+
+  # 2.C) Validate OpenAPI spec 
+  - job: lint-api
+    dependsOn: compile
+    steps:
+    - script: |
+        npm install oval
+      displayName: 'Install OpenAPI validator'
+
+    - script: |
+        npx oval validate -p openapi/index.yaml
+      displayName: 'OpenAPI validator'
+
