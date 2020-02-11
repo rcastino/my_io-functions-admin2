@@ -36,7 +36,7 @@ stages:
 
 
     # B) Analyse and validate code
-  - stage: Analyze
+  - stage: Validate
     dependsOn: Build
     jobs:
       # B1) Analyze source code
@@ -81,8 +81,23 @@ stages:
 
         - script: |
             npx oval validate -p openapi/index.yaml
-          displayName: 'OpenAPI validator'
+          displayName: 'Validate OpenAPI'
 
+      # B3) Check danger 
+      - job: danger
+        steps:
+        - task: Cache@2
+          inputs:
+            key: 'yarn | "$(Agent.OS)" | yarn.lock'
+            restoreKeys: |
+              yarn | "$(Agent.OS)"
+              yarn
+            path: $(YARN_CACHE_FOLDER)
+          displayName: Cache Yarn packages
+
+        - script: |
+            [ -z "$DANGER_GITHUB_API_TOKEN" ] || yarn danger ci
+          displayName: 'Danger CI'
 
     # C) Run unit tests
   - stage: Test
