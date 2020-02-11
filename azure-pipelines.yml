@@ -125,5 +125,6 @@ stages:
         # TODO: "bash <(curl -s https://codecov.io/bash)"
         - bash: |
             echo 'codecov'
+            "bash <(curl -s https://codecov.io/bash)"
           displayName: 'Code coverage'
     
