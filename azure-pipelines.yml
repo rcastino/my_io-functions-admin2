@@ -7,9 +7,9 @@ pool:
   vmImage: 'ubuntu-latest'
 
 stages:
-  - stage: CompileCode
+  # A) Install modules and build
+  - stage: Build
     jobs:
-      # 1) Install Node.js modules and build
       - job: compile
         steps:
         - task: NodeTool@0
@@ -34,35 +34,13 @@ stages:
             yarn build
           displayName: 'Build'
 
-      # 2.A) Run unit tests
-      - job: tests
-        dependsOn: compile
-        steps:
-        - task: Cache@2
-          inputs:
-            key: 'yarn | "$(Agent.OS)" | yarn.lock'
-            restoreKeys: |
-              yarn | "$(Agent.OS)"
-              yarn
-            path: $(YARN_CACHE_FOLDER)
-          displayName: Cache Yarn packages
 
-        - script: |
-            yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
-          displayName: 'Install node modules'
-
-        - script: |
-            yarn test:coverage
-          displayName: 'Unit tests'
-
-        # TODO: "bash <(curl -s https://codecov.io/bash)"
-        - bash: |
-            echo 'codecov'
-          displayName: 'Code coverage'
-    
-      # 2.B) Analyze source code
+    # B) Analyse and validate code
+  - stage: Analyze
+    dependsOn: Build
+    jobs:
+      # B1) Analyze source code
       - job: lint
-        dependsOn: compile
         steps:
         - task: Cache@2
           inputs:
@@ -81,9 +59,8 @@ stages:
             yarn lint
           displayName: 'Lint'
 
-      # 2.C) Validate OpenAPI spec 
+      # B2) Validate OpenAPI spec 
       - job: lint_api
-        dependsOn: compile
         steps:
         - task: Cache@2
           inputs:
@@ -107,4 +84,31 @@ stages:
           displayName: 'OpenAPI validator'
 
 
+    # C) Run unit tests
+  - stage: Test
+    dependsOn: Build
+    jobs:
+      - job: tests
+        steps:
+        - task: Cache@2
+          inputs:
+            key: 'yarn | "$(Agent.OS)" | yarn.lock'
+            restoreKeys: |
+              yarn | "$(Agent.OS)"
+              yarn
+            path: $(YARN_CACHE_FOLDER)
+          displayName: Cache Yarn packages
+
+        - script: |
+            yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
+          displayName: 'Install node modules'
+
+        - script: |
+            yarn test:coverage
+          displayName: 'Unit tests'
+
+        # TODO: "bash <(curl -s https://codecov.io/bash)"
+        - bash: |
+            echo 'codecov'
+          displayName: 'Code coverage'
     
