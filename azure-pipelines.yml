@@ -104,3 +104,10 @@ jobs:
         npx oval validate -p openapi/index.yaml
       displayName: 'OpenAPI validator'
 
+
+stages:
+  - stage: CompileCode
+    jobs:
+    - job: compile
+    - job: tests
+    
