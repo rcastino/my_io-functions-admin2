@@ -37,7 +37,6 @@ stages:
 
     # B) Analyse and validate code
   - stage: Validate
-    dependsOn: Build
     jobs:
       # B1) Analyze source code
       - job: lint
@@ -101,7 +100,6 @@ stages:
 
     # C) Run unit tests
   - stage: Test
-    dependsOn: Build
     jobs:
       - job: tests
         steps:
@@ -125,6 +123,8 @@ stages:
         # TODO: "bash <(curl -s https://codecov.io/bash)"
         - bash: |
             echo 'codecov'
+            pwd
+            ls
             "/bin/bash <(curl -s https://codecov.io/bash)"
           displayName: 'Code coverage'
     
