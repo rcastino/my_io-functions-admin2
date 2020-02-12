@@ -63,19 +63,6 @@ stages:
       # B2) Validate OpenAPI spec 
       - job: lint_api
         steps:
-        - task: Cache@2
-          inputs:
-            key: 'yarn | "$(Agent.OS)" | yarn.lock'
-            restoreKeys: |
-              yarn | "$(Agent.OS)"
-              yarn
-            path: $(YARN_CACHE_FOLDER)
-          displayName: Cache Yarn packages
-
-        - script: |
-            yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
-          displayName: 'Install node modules'
-
         - script: |
             npx oval validate -p openapi/index.yaml
           displayName: 'Validate OpenAPI'
