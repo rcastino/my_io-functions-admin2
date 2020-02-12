@@ -8,7 +8,7 @@ pool:
 
 stages:
   # A) Install modules and build
-  - stage: Build
+  - stage: Build_check
     dependsOn: []
     jobs:
       - job: compile
@@ -36,11 +36,11 @@ stages:
           displayName: 'Build'
 
 
-    # B) Analyse and validate code
-  - stage: Validate
+    # B) Checker and validator tools for static code analysis
+  - stage: Source_code_check
     dependsOn: []
     jobs:
-      # B1) Analyze source code
+      # B1) Analyze source code to find errors
       - job: lint
         steps:
         - task: Cache@2
@@ -60,14 +60,14 @@ stages:
             yarn lint
           displayName: 'Lint'
 
-      # B2) Validate OpenAPI spec 
+      # B2) Validate API definition 
       - job: lint_api
         steps:
         - script: |
             npx oval validate -p openapi/index.yaml
           displayName: 'Validate OpenAPI'
 
-      # B3) Check danger 
+      # B3) Check source code with danger 
       - job: danger
         steps:
         - task: Cache@2
@@ -84,7 +84,7 @@ stages:
           displayName: 'Danger CI'
 
     # C) Run unit tests
-  - stage: Test
+  - stage: Unit_tests_exec
     dependsOn: []
     jobs:
       - job: tests
