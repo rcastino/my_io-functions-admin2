@@ -77,10 +77,6 @@ stages:
           displayName: 'Install node modules'
 
         - script: |
-            npm install oval
-          displayName: 'Install OpenAPI validator'
-
-        - script: |
             npx oval validate -p openapi/index.yaml
           displayName: 'Validate OpenAPI'
 
@@ -123,11 +119,7 @@ stages:
             yarn test:coverage
           displayName: 'Unit tests'
 
-        # TODO: "bash <(curl -s https://codecov.io/bash)"
         - bash: |
-            echo 'codecov'
-            pwd
-            ls
-            /bin/bash <(curl -s https://codecov.io/bash)
+            bash <(curl -s https://codecov.io/bash)
           displayName: 'Code coverage'
     
