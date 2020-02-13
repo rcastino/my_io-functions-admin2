@@ -4,7 +4,7 @@ variables:
   YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
 
 pool:
-  container: mcr.microsoft.com/windows/servercore:ltsc2019
+  vmImage: 'ubuntu-latest'
 
 stages:
   # A) Install modules and build
