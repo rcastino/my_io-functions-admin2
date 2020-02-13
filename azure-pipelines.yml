@@ -31,14 +31,11 @@ stages:
             yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
           displayName: 'Install node modules'
 
-        - bash: |
-            ls 
-            ls node_modules/
-            ls node_modules/.bin
-            
-            $YARN_CACHE_FOLDER/node_modules/.bin/rimraf ./generated/definitions 
-            mkdir -p ./generated/definitions 
-            $YARN_CACHE_FOLDER/node_modules/.bin/gen-api-models --api-spec ./openapi/index.yaml --out-dir ./generated/definitions
+        - bash: |            
+            echo 'AAAAAAA'
+            ./node_modules/.bin/rimraf ./generated/definitions 
+            echo 'BBBBBBB'
+            ./node_modules/.bin/rimraf.cmd ./generated/definitions 
           displayName: 'Build'
 
 
