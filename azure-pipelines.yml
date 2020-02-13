@@ -32,9 +32,9 @@ stages:
           displayName: 'Install node modules'
 
         - bash: |
-            rimraf ./generated/definitions 
+            ./node_modules/.bin/rimraf/rimraf ./generated/definitions 
             mkdir -p ./generated/definitions 
-            gen-api-models --api-spec ./openapi/index.yaml --out-dir ./generated/definitions
+            $YARN_CACHE_FOLDER/node_modules/.bin/rimraf/gen-api-models --api-spec ./openapi/index.yaml --out-dir ./generated/definitions
           displayName: 'Build'
 
 
