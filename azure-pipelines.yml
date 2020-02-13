@@ -4,7 +4,7 @@ variables:
   YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-2019'
 
 stages:
   # A) Install modules and build
@@ -31,8 +31,11 @@ stages:
             yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
           displayName: 'Install node modules'
 
-        - script: |
-            yarn build
+        - bash: |
+            mkdir ./generated
+            mkdir ./generated/definitions 
+            yarn gen-api-models --api-spec ./openapi/index.yaml --out-dir ./generated/definitions 
+            yarn tsc
           displayName: 'Build'
 
 
@@ -69,6 +72,7 @@ stages:
 
       # B3) Check source code with danger 
       - job: danger
+        condition: variables['DANGER_GITHUB_API_TOKEN']
         steps:
         - task: Cache@2
           inputs:
@@ -80,7 +84,11 @@ stages:
           displayName: Cache Yarn packages
 
         - script: |
-            [ -z "$DANGER_GITHUB_API_TOKEN" ] || yarn danger ci
+            yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
+          displayName: 'Install node modules'
+
+        - bash: |
+            yarn danger ci
           displayName: 'Danger CI'
 
 
