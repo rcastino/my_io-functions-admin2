@@ -31,8 +31,9 @@ stages:
             yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
           displayName: 'Install node modules'
 
-        - bash: |
-            yarn build
+        - script: |
+            yarn generate:definitions
+            tsc
           displayName: 'Build'
 
 
@@ -80,7 +81,7 @@ stages:
           displayName: Cache Yarn packages
 
         - script: |
-            [ -z "$DANGER_GITHUB_API_TOKEN" ] || yarn danger ci
+            yarn danger ci
           displayName: 'Danger CI'
 
 
