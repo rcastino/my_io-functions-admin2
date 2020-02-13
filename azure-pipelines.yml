@@ -72,6 +72,7 @@ stages:
 
       # B3) Check source code with danger 
       - job: danger
+        condition: $DANGER_GITHUB_API_TOKEN
         steps:
         - task: Cache@2
           inputs:
@@ -85,7 +86,7 @@ stages:
         - bash: |
             if [ -z "$DANGER_GITHUB_API_TOKEN" ] 
             then
-              echo 'Please set \$DANGER_GITHUB_API_TOKEN to run yarn danger ci'
+              echo 'Please set DANGER_GITHUB_API_TOKEN to run yarn danger ci'
             else
               echo 'Call yarn danger ci...'
               yarn danger ci
