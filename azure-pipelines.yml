@@ -32,7 +32,7 @@ stages:
           displayName: 'Install node modules'
 
         - script: |            
-            yarn generate:definitions
+            yarn run rimraf ./generated/definitions && mkdir -p ./generated/definitions && yarn run gen-api-models --api-spec ./openapi/index.yaml --out-dir ./generated/definitions
           displayName: 'Build'
 
 
