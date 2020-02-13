@@ -70,7 +70,7 @@ stages:
             npx oval validate -p openapi/index.yaml
           displayName: 'Validate OpenAPI'
 
-      # B3) Check source code with danger 
+      # B3) Check source code with danger (only when there is a PR)
       - job: danger
         condition: variables['DANGER_GITHUB_API_TOKEN']
         steps:
@@ -88,7 +88,6 @@ stages:
           displayName: 'Install node modules'
 
         - bash: |
-            ls node_module/.bin
             yarn danger ci
           displayName: 'Danger CI'
 
