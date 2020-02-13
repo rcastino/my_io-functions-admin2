@@ -31,8 +31,11 @@ stages:
             yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
           displayName: 'Install node modules'
 
-        - bash: |            
-            yarn build2
+        - bash: |
+            mkdir ./generated
+            mkdir ./generated/definitions 
+            yarn gen-api-models --api-spec ./openapi/index.yaml --out-dir ./generated/definitions 
+            yarn tsc
           displayName: 'Build'
 
 
