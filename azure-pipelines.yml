@@ -32,7 +32,7 @@ stages:
           displayName: 'Install node modules'
 
         - bash: |            
-            yarn generate:definitions2
+            yarn build2
           displayName: 'Build'
 
 
