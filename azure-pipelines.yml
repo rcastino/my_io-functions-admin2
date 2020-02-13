@@ -83,7 +83,13 @@ stages:
           displayName: Cache Yarn packages
 
         - script: |
-            [ -z "$DANGER_GITHUB_API_TOKEN" ] || yarn danger ci
+            if [ -z "$DANGER_GITHUB_API_TOKEN" ] 
+            then
+              echo 'Please set \$DANGER_GITHUB_API_TOKEN to run yarn danger ci'
+            else
+              echo 'Call yarn danger ci...'
+              yarn danger ci
+            fi
           displayName: 'Danger CI'
 
 
