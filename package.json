@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "license": "MIT",
   "scripts": {
-    "build": "yarn generate:definitions && yarn tsc",
+    "build": "yarn generate:definitions && yarn run tsc",
     "build:production": "npm run prestart && npm prune --production",
     "watch": "tsc --w",
     "prestart": "npm run build && func extensions install",
@@ -13,7 +13,8 @@
     "test:coverage": "jest --coverage",
     "lint": "tslint -p .",
     "deploy": "npm run build && func azure functionapp publish agid-functions-admin-test",
-    "generate:definitions": "rimraf ./generated/definitions && mkdir ./generated && mkdir ./generated/definitions && yarn gen-api-models --api-spec ./openapi/index.yaml --out-dir ./generated/definitions"
+    "generate:definitions": "rimraf ./generated/definitions && mkdir ./generated && mkdir ./generated/definitions && yarn run gen-api-models --api-spec ./openapi/index.yaml --out-dir ./generated/definitions",
+    "generate:definitions2": "yarn run rimraf ./generated/definitions && mkdir ./generated && mkdir ./generated/definitions && yarn run gen-api-models --api-spec ./openapi/index.yaml --out-dir ./generated/definitions"
   },
   "description": "",
   "devDependencies": {
