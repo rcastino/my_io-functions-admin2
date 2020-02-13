@@ -80,7 +80,7 @@ stages:
           displayName: Cache Yarn packages
 
         - script: |
-            yarn danger ci
+            [ -z "$DANGER_GITHUB_API_TOKEN" ] || yarn danger ci
           displayName: 'Danger CI'
 
 
