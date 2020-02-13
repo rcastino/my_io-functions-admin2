@@ -82,7 +82,7 @@ stages:
             path: $(YARN_CACHE_FOLDER)
           displayName: Cache Yarn packages
 
-        - script: |
+        - bash: |
             if [ -z "$DANGER_GITHUB_API_TOKEN" ] 
             then
               echo 'Please set \$DANGER_GITHUB_API_TOKEN to run yarn danger ci'
