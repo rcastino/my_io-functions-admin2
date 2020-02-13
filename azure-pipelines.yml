@@ -72,7 +72,7 @@ stages:
 
       # B3) Check source code with danger 
       - job: danger
-        condition: $DANGER_GITHUB_API_TOKEN
+        condition: variables['DANGER_GITHUB_API_TOKEN']
         steps:
         - task: Cache@2
           inputs:
