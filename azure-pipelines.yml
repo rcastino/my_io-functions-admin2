@@ -34,8 +34,8 @@ stages:
         - bash: |            
             echo 'AAAAAAA'
             ./node_modules/.bin/rimraf ./generated/definitions 
-            echo 'BBBBBBB'
-            yarn generate:definitions 
+            echo 'BBBBBBB: yarn generate:definitions'
+            yarn 'generate:definitions' 
           displayName: 'Build'
 
 
