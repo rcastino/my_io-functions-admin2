@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "build": "yarn generate:definitions && yarn run tsc",
-    "build2": "yarn tsc && yarn tsc",
+    "build2": "yarn run rimraf ./generated/definitions && yarn run rimraf ./generated/definitions",
     "build:production": "npm run prestart && npm prune --production",
     "watch": "tsc --w",
     "prestart": "npm run build && func extensions install",
