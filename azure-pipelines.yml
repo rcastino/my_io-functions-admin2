@@ -83,6 +83,10 @@ stages:
             path: $(YARN_CACHE_FOLDER)
           displayName: Cache Yarn packages
 
+        - script: |
+            yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
+          displayName: 'Install node modules'
+
         - bash: |
             ls node_module/.bin
             yarn danger ci
