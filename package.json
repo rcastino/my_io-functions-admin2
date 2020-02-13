@@ -13,10 +13,7 @@
     "test:coverage": "jest --coverage",
     "lint": "tslint -p .",
     "deploy": "npm run build && func azure functionapp publish agid-functions-admin-test",
-    "generate:definitions": "rimraf ./generated/definitions && mkdir -p ./generated/definitions && gen-api-models --api-spec ./openapi/index.yaml --out-dir ./generated/definitions",
-    "myscript1": "rimraf ./generated/definitions",
-    "myscript2": "mkdir -p ./generated/definitions",
-    "myscript3": "gen-api-models --api-spec ./openapi/index.yaml --out-dir ./generated/definitions"
+    "generate:definitions": "rimraf ./generated/definitions && mkdir ./generated && mkdir ./generated/definitions && gen-api-models --api-spec ./openapi/index.yaml --out-dir ./generated/definitions"
   },
   "description": "",
   "devDependencies": {
