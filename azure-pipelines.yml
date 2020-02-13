@@ -35,7 +35,7 @@ stages:
             echo 'AAAAAAA'
             ./node_modules/.bin/rimraf ./generated/definitions 
             echo 'BBBBBBB'
-            ./node_modules/.bin/rimraf.cmd ./generated/definitions 
+            yarn generate:definitions 
           displayName: 'Build'
 
 
