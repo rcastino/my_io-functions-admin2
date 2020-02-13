@@ -31,7 +31,7 @@ stages:
             yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
           displayName: 'Install node modules'
 
-        - script: |
+        - bash: |
             yarn build
           displayName: 'Build'
 
