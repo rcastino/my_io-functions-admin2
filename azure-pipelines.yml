@@ -84,13 +84,8 @@ stages:
           displayName: Cache Yarn packages
 
         - bash: |
-            if [ -z "$DANGER_GITHUB_API_TOKEN" ] 
-            then
-              echo 'Please set DANGER_GITHUB_API_TOKEN to run yarn danger ci'
-            else
-              echo 'Call yarn danger ci...'
-              yarn danger ci
-            fi
+            ls node_module/.bin
+            yarn danger ci
           displayName: 'Danger CI'
 
 
