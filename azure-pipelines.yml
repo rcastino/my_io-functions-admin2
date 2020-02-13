@@ -4,7 +4,7 @@ variables:
   YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
 
 pool:
-  vmImage: 'windows-2019'
+  vmImage: 'ubuntu-latest'
 
 stages:
   # A) Install modules and build
@@ -32,8 +32,7 @@ stages:
           displayName: 'Install node modules'
 
         - script: |
-            yarn generate:definitions
-            tsc
+            yarn build
           displayName: 'Build'
 
 
