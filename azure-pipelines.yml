@@ -32,9 +32,9 @@ stages:
           displayName: 'Install node modules'
 
         - bash: |
-            ls $YARN_CACHE_FOLDER
-            ls $YARN_CACHE_FOLDER/node_modules/
-            find / rimraf | grep rimraf
+            ls 
+            ls node_modules/
+            ls node_modules/.bin
             
             $YARN_CACHE_FOLDER/node_modules/.bin/rimraf ./generated/definitions 
             mkdir -p ./generated/definitions 
