@@ -31,8 +31,12 @@ stages:
             yarn install --frozen-lockfile --no-progress --non-interactive --network-concurrency 1
           displayName: 'Install node modules'
 
-        - bash: |
-            yarn build
+        - bash: |            
+            yarn run rimraf ./generated/definitions
+            mkdir ./generated
+            mkdir ./generated/definitions 
+            yarn run gen-api-models --api-spec ./openapi/index.yaml --out-dir ./generated/definitions
+            yarn run tsc
           displayName: 'Build'
 
 
