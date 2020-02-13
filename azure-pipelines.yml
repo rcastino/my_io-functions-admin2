@@ -32,12 +32,11 @@ stages:
           displayName: 'Install node modules'
 
         - bash: |            
-            echo 'AAAAAAA'
-            ./node_modules/.bin/rimraf ./generated/definitions 
-            echo 'BBBBBBB: '
-            yarn myscript1
-            yarn myscript2
-            yarn myscript3            
+            yarn run rimraf ./generated/definitions
+            mkdir ./generated
+            mkdir ./generated/definitions 
+            yarn run gen-api-models --api-spec ./openapi/index.yaml --out-dir ./generated/definitions
+            yarn run tsc
           displayName: 'Build'
 
 
