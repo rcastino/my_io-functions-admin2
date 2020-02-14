@@ -2,7 +2,8 @@
 #
 # This pipeline has been implemented to be run on hosted agent pools based both
 # on 'windows' and 'ubuntu' virtual machine images and using the scripts defined
-# in the package.json file.
+# in the package.json file. Since we are deploying on Azure functions on Windows
+# runtime, the pipeline is currently configured to use a Windows hosted image.
 
 variables:
   YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
@@ -37,7 +38,6 @@ stages:
 
         - bash: |
             yarn build
-            ls ./generated/definitions
           displayName: 'Build'
 
 
