@@ -1,13 +1,14 @@
 # Azure DevOps pipeline to build, check source codes, run tests, and more.
 #
-# This pipeline has been implemented to be run both on 'windows-2019' and 
-# 'ubuntu-latest' VM using scripts defined in the package.json file.
+# This pipeline has been implemented to be run on hosted agent pools based both
+# on 'windows' and 'ubuntu' virtual machine images and using the scripts defined
+# in the package.json file.
 
 variables:
   YARN_CACHE_FOLDER: $(Pipeline.Workspace)/.yarn
 
 pool:
-  vmImage: 'ubuntu-latest'
+  vmImage: 'windows-2019'
 
 stages:
   # A) Install modules and build
@@ -119,4 +120,3 @@ stages:
         - bash: |
             bash <(curl -s https://codecov.io/bash)
           displayName: 'Code coverage'
-    
